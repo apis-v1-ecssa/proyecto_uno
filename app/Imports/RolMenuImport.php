@@ -31,16 +31,37 @@ class RolMenuImport implements ToCollection
 
                     $combicacion = $value[5];
                     $roles = array();
-                    /*switch ($combicacion) {
+                    switch ($combicacion) {
                         case 'ADMIN_OPE':
-                            $admin = Rol::firstOrCreate(['name' => $value[6]]);
-                            $operador = Rol::firstOrCreate(['name' => $value[7]]);
+                            $admin = Rol::where('name', $value[6])->first();
+                            if(is_null($admin)) {
+                                $admin = Rol::create(
+                                    [
+                                        'name' => $value[6]
+                                    ]
+                                );
+                            }
+                            $operador = Rol::where('name', $value[7])->first();
+                            if(is_null($admin)) {
+                                $admin = Rol::create(
+                                    [
+                                        'name' => $value[7]
+                                    ]
+                                );
+                            }
                             array_push($roles, $admin->id);
                             array_push($roles, $operador->id);
                             break;
 
                         case 'ADMIN':
-                            $admin = Rol::firstOrCreate(['name' => $value[6]]);
+                            $admin = Rol::where('name', $value[6])->first();
+                            if (is_null($admin)) {
+                                $admin = Rol::create(
+                                    [
+                                        'name' => $value[6]
+                                    ]
+                                );
+                            }
                             array_push($roles, $admin->id);
                             break;
                     }
@@ -50,7 +71,7 @@ class RolMenuImport implements ToCollection
                         $menu_rol->rol_id = $value;
                         $menu_rol->menu_id = $menu->id;
                         $menu_rol->save();
-                    }*/
+                    }
                     DB::commit();
                 }
             }
