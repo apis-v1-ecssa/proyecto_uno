@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Rol extends Model
 {
     use SoftDeletes;
+    protected $dateFormat = 'Y-d-m H:i:s.u';
     /**
      * The connection name for the model.
      *
