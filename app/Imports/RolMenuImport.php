@@ -33,29 +33,14 @@ class RolMenuImport implements ToCollection
                     $roles = array();
                     switch ($combicacion) {
                         case 'ADMIN_OPE':
-                            $admin = Rol::where('name', $value[6])->first();
-                            if(is_null($admin)) {
-                                $admin = new Rol();
-                                $admin->name = $value[6];
-                                $admin->save();
-                            }
-                            $operador = Rol::where('name', $value[7])->first();
-                            if(is_null($admin)) {
-                                $admin = new Rol();
-                                $admin->name = $value[7];
-                                $admin->save();
-                            }
+                            $admin = Rol::firstOrCreate(['name' => $value[6]]);
+                            $operador = Rol::firstOrCreate(['name' => $value[7]]);
                             array_push($roles, $admin->id);
                             array_push($roles, $operador->id);
                             break;
 
                         case 'ADMIN':
-                            $admin = Rol::where('name', $value[6])->first();
-                            if (is_null($admin)) {
-                                $admin = new Rol();
-                                $admin->name = $value[6];
-                                $admin->save();
-                            }
+                            $admin = Rol::firstOrCreate(['name' => $value[6]]);
                             array_push($roles, $admin->id);
                             break;
                     }

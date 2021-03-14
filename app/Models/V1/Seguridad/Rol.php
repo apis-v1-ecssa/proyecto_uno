@@ -57,9 +57,4 @@ class Rol extends Model
     {
         return $this->hasMany(RolMenu::class, 'rol_id', 'id');
     }
-
-    public function fromDateTime($value)
-    {
-        return Carbon::parse(parent::fromDateTime($value))->format('Y-d-m H:i:s');
-    }
 }
