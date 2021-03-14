@@ -83,7 +83,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '172.31.253.62'),
             'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'monitoreo'),
+            'database' => env('DB_DATABASE', 'MONITOREO'),
             'username' => env('DB_USERNAME', 'sa'),
             'password' => env('DB_PASSWORD', 'Ecssa2015.'),
             'charset' => 'utf8',
