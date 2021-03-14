@@ -137,14 +137,14 @@ class Handler extends ExceptionHandler
                     break;
             }
 
-            return $this->errorResponse($message, 422);
+            return $this->errorResponse($exception->getMessage(), 422);
         }
 
         if ($exception instanceof TokenMismatchException) {
             return redirect()->back()->withInput($request->input());
         }
 
-        return $this->errorResponse("Falla inesperada, intente luego", 500);
+        //return $this->errorResponse("Falla inesperada, intente luego", 500);
     }
 
     protected function invalidJson($request, ValidationException $exception)

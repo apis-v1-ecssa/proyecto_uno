@@ -2,9 +2,12 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
-use Faker\Generator as Faker;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Faker\Generator as Faker;
+use App\Models\V1\Seguridad\Usuario;
+use App\Models\V1\Catalogo\Municipio;
+use App\Models\V1\Catalogo\Departamento;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +20,19 @@ use Illuminate\Support\Str;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Usuario::class, function (Faker $faker) {
+    $date = date('Y-m-d h:i:s');
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        'remember_token' => Str::random(10),
+        'cui' => '2342008040608',
+        'name' => $this->faker->randomElement([$this->faker->firstNameMale, $this->faker->firstNameFemale]),
+        'surname' => $this->faker->lastName,
+        'admin' => Usuario::USUARIO_ADMINISTRADOR,
+        'email' => $this->faker->unique()->freeEmail,
+        'password' => 'admin',
+        'observation' => $this->faker->randomElement([$this->faker->text($this->faker->numberBetween(100, 500)), null]),
+        'ubication' => $this->faker->randomElement([$this->faker->address, null]),
+        'departament_id' => Departamento::all()->random()->id,
+        'municipality_id' => Municipio::all()->random()->id,
+        'created_at' =>  Carbon::createFromFormat('Y-d-m H:i:s', $date)->toDateTimeString()
     ];
 });

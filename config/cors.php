@@ -15,19 +15,25 @@ return [
     |
     */
 
-    'paths' => ['api/v1/ecssa/*'],
-
+    'paths' => [
+        'api/v1/ecssa/*',
+        'service/passport/*',
+        'service/rest/v1/security/*',
+        'service/rest/v1/catalogo/*',
+        'service/rest/v1/principal/*'
+    ],
+    
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['*'], //http://localhost:8001 falta la configuracion segura
 
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => false,
+    'exposed_headers' => [],
 
-    'max_age' => false,
+    'max_age' => 0,
 
     'supports_credentials' => false,
 

@@ -47,6 +47,14 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
 
         $this->mapApiV1Routes();
+
+        $this->mapApiV1PassportRoutes();
+
+        $this->mapApiV1SecurityRoutes();
+
+        $this->mapApiV1CatalogoRoutes();
+
+        $this->mapApiV1PrincipalRoutes();
     }
 
     /**
@@ -91,5 +99,64 @@ class RouteServiceProvider extends ServiceProvider
         ->middleware('api')
         ->namespace("{$this->namespace}\WEB\V1")
         ->group(base_path('routes/api_v1.php'));
+    }
+
+    /**
+     * Define the "service/passport" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiV1PassportRoutes()
+    {
+        Route::prefix('service/passport')
+        ->middleware('passport')
+        ->group(base_path('routes/v1/api_servicio.php'));
+    }
+
+    /**
+     * Define the "service/rest/v1/security" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiV1SecurityRoutes()
+    {
+        Route::prefix('service/rest/v1/security')
+        ->middleware('security')
+        ->namespace("{$this->namespace}\V1\Seguridad")
+        ->group(base_path('routes/v1/api_seguridad.php'));
+    }
+
+    /**
+     * Define the "service/rest/v1/catalogo" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiV1CatalogoRoutes()
+    {
+        Route::prefix('service/rest/v1/catalogo')
+        ->middleware('catalogo')
+        ->namespace("{$this->namespace}\V1\Catalogo")
+        ->group(base_path('routes/v1/api_catalogo.php'));
+    }
+
+    /**
+     * Define the "service/rest/v1/principal" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiV1PrincipalRoutes()
+    {
+        Route::prefix('service/rest/v1/principal')
+        ->middleware('principal')
+        ->namespace("{$this->namespace}\V1\Principal")
+        ->group(base_path('routes/v1/api_principal.php'));
     }
 }
