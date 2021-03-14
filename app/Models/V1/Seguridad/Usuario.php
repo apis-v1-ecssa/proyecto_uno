@@ -16,8 +16,6 @@ class Usuario extends Authenticatable
 
     const USUARIO_ADMINISTRADOR = 'ADMINISTRADOR';
     const USUARIO_REGULAR = 'REGULAR';
-
-    protected $dateFormat = 'Y-d-m H:i:s';
     
     /**
      * The connection name for the model.

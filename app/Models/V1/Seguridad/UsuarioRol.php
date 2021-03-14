@@ -9,7 +9,7 @@ class UsuarioRol extends Model
 {
     use SoftDeletes;
 
-    protected $dateFormat = 'Y-d-m H:i:s';
+    //protected $dateFormat = 'Y-d-m H:i:s';
 
     /**
      * The connection name for the model.

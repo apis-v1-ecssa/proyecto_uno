@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 class Deliverie extends Model
 {
     public $timestamps = false;
-    protected $dateFormat = 'Y-d-m H:i:s';
 
     /**
      * The connection name for the model.

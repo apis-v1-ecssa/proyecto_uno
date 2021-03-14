@@ -79,6 +79,4 @@ class AuthCode extends Model
     {
         return config('passport.storage.database.connection') ?? $this->connection;
     }
-
-    protected $dateFormat = 'Y-d-m H:i:s';
 }

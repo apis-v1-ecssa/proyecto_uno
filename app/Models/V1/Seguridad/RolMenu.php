@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RolMenu extends Model
 {
-    protected $dateFormat = 'Y-d-m H:i:s';
-
     /**
      * The connection name for the model.
      *
