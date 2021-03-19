@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\Crypt;
 use App\Models\Sistema\TransportUpdate;
+use App\Models\V1\Principal\Bitacora;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -37,5 +38,20 @@ trait ApiResponser
     $image = base64_decode($image_service_str);
     // Retornamos el string decodificado
     return $image;
+  }
+
+  protected function bitacora($table, $info, $user_id, $deliverie_id, $detail_id, $deliverie_status_id, $detail_status_id)
+  {
+    Bitacora::create(
+      [
+        'table' => $table,
+        'info' => $info,
+        'user_id' => $user_id,
+        'deliverie_id' => $deliverie_id,
+        'detail_id' => $detail_id,
+        'deliverie_status_id' => $deliverie_status_id,
+        'detail_status_id' => $detail_status_id
+      ]
+    );
   }
 }

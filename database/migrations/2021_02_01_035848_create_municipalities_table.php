@@ -17,7 +17,7 @@ class CreateMunicipalitiesTable extends Migration
             $table->id();
             $table->string('name', 125);
             $table->foreignId('departament_id')->constrained('departaments');
-            $table->timestamps();
+            $table->timestamps(3);
         });
     }
 

@@ -37,8 +37,7 @@ class Detail extends Model
         'observation',
         'delivery_time',
         'status_id',
-        'deliverie_id',
-        'user_id'
+        'deliverie_id'
     ];
 
     /**
@@ -67,15 +66,5 @@ class Detail extends Model
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id', 'id');
-    }
-
-    /**
-     * Get the user associated with the deliveries.
-     *
-     * @return object
-     */
-    public function user()
-    {
-        return $this->belongsTo(Usuario::class, 'user_id', 'id');
     }
 }

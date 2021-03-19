@@ -4,8 +4,47 @@
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
 
-    <v-navigation-drawer v-show="isLogin" v-model="drawer" v-if="drawer" app clipped width="300">
-      <v-img :aspect-ratio="16/10" :src="logo"></v-img>
+    <v-navigation-drawer
+      v-show="isLogin"
+      v-model="drawer"
+      v-if="drawer"
+      app
+      clipped
+      width="300"
+    >
+      <v-card class="mx-auto" max-width="434" tile>
+        <v-img
+          height="100%"
+          src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
+        >
+          <v-row align="end" class="fill-height">
+            <v-col align-self="start" class="pa-0" cols="12">
+              <v-avatar class="profile" color="grey" size="164" tile>
+                <v-img
+                  :aspect-ratio="16 / 10"
+                  :src="
+                    usuario_foto
+                      ? usuario_foto
+                      : 'https://cdn.vuetifyjs.com/images/profiles/marcus.jpg'
+                  "
+                ></v-img>
+              </v-avatar>
+            </v-col>
+            <v-col class="py-0">
+              <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                <v-list-item-content>
+                  <v-list-item-title class="title" v-text="usuario_nombre">
+                  </v-list-item-title>
+                  <v-list-item-subtitle
+                    v-text="usuario_email"
+                  ></v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+          </v-row>
+        </v-img>
+      </v-card>
+      <v-divider></v-divider>
       <v-list dense>
         <v-list-item @click="redirect('/')" link>
           <v-list-item-action>
@@ -16,7 +55,12 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-group v-for="item in getMenu" :key="item.text" :prepend-icon="item.icon" no-action>
+        <v-list-group
+          v-for="item in getMenu"
+          :key="item.text"
+          :prepend-icon="item.icon"
+          no-action
+        >
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title v-text="item.text"></v-list-item-title>
@@ -30,7 +74,7 @@
             @click="redirect(subItem.path)"
           >
             <v-list-item-icon>
-              <v-icon>{{subItem.icon}}</v-icon>
+              <v-icon>{{ subItem.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="subItem.text"></v-list-item-title>
@@ -40,61 +84,147 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar v-show="isLogin" app :clipped-left="$vuetify.breakpoint.lgAndUp" dense>
+    <v-app-bar
+      v-show="isLogin"
+      app
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      dense
+    >
       <v-app-bar-nav-icon @click="mostar"></v-app-bar-nav-icon>
-      <v-btn small @click="cambiar_password" outlined color="green">{{ userName }}</v-btn>
-
-      <v-dialog v-model="dialog_password" width="35%" persistent color="primary">
-        <v-card>
-          <v-overlay :value="loading">
-            <v-progress-circular indeterminate size="64"></v-progress-circular>
-          </v-overlay>
-          <v-card-title>
-            <span class="headline">Cambiar contraseña</span>
-          </v-card-title>
-
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" md="12">
-                  <v-text-field
-                    clearable
-                    counter
-                    outlined
-                    v-model="form.password"
-                    type="password"
-                    label="Ingresar la contraseña"
-                    data-vv-scope="crear_password"
-                    data-vv-name="contraseña"
-                    v-validate="'required|min:6'"
-                  ></v-text-field>
-                  <FormError :attribute_name="'crear_password.contraseña'" :errors_form="errors"></FormError>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" @click="dialog_password = false">Cancelar</v-btn>
-            <v-btn
-              color="blue darken-1"
-              @click="validar_formulario_password('crear_password')"
-            >Guardar</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
 
       <v-spacer></v-spacer>
+      <v-btn-toggle>
+        <v-btn color="warning" @click="ir('')">
+          <v-icon>mdi-home</v-icon>
+          <span>Principal</span>
+        </v-btn>
 
-      <v-btn small fab outlined color="red" @click="logout">
-        <v-icon>exit_to_app</v-icon>
-      </v-btn>
+        <v-btn color="success" v-if="ver('acept')" @click="ir('acept')">
+          <v-icon>mdi-history</v-icon>
+          <span>Aceptados</span>
+        </v-btn>
+
+        <v-btn color="primary" v-if="ver('complete')" @click="ir('complete')">
+          <v-icon>mdi-history</v-icon>
+          <span>Pendiente de Firma</span>
+        </v-btn>
+
+        <v-btn color="error" v-if="ver('cancel')" @click="ir('cancel')">
+          <v-icon>mdi-history</v-icon>
+          <span>Anulados</span>
+        </v-btn>
+      </v-btn-toggle>
+      <v-spacer></v-spacer>
+
+      <v-menu bottom min-width="200px" rounded offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn icon x-large v-on="on">
+            <v-avatar color="brown" size="40">
+              <img
+                :src="usuario_foto"
+                v-if="usuario_foto"
+                :alt="usuario_nombre"
+              />
+              <span
+                v-else
+                class="white--text headline"
+                v-text="usuario_inicial"
+              ></span>
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-list-item-content class="justify-center">
+            <div class="mx-auto text-center">
+              <v-avatar color="brown">
+                <img
+                  :src="usuario_foto"
+                  v-if="usuario_foto"
+                  :alt="usuario_nombre"
+                />
+                <span
+                  v-else
+                  class="white--text headline"
+                  v-text="usuario_inicial"
+                ></span>
+              </v-avatar>
+              <h3 v-text="usuario_nombre"></h3>
+              <p class="caption mt-1" v-text="usuario_cui"></p>
+              <p class="caption mt-1" v-text="usuario_email"></p>
+              <v-divider class="my-3"></v-divider>
+
+              <v-btn depressed rounded text @click="cambiar_password">
+                Cambiar Contraseña
+              </v-btn>
+
+              <v-divider class="my-3"></v-divider>
+              <v-btn small fab outlined color="red" @click="logout">
+                <v-icon>exit_to_app</v-icon>
+              </v-btn>
+            </div>
+          </v-list-item-content>
+        </v-card>
+      </v-menu>
     </v-app-bar>
 
     <v-main>
       <v-container class="fill-height" fluid>
         <router-view></router-view>
+
+        <v-dialog
+          v-model="dialog_password"
+          width="35%"
+          persistent
+          color="primary"
+        >
+          <v-card>
+            <v-overlay :value="loading">
+              <v-progress-circular
+                indeterminate
+                size="64"
+              ></v-progress-circular>
+            </v-overlay>
+            <v-card-title>
+              <span class="headline">Cambiar contraseña</span>
+            </v-card-title>
+
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" md="12">
+                    <v-text-field
+                      clearable
+                      counter
+                      outlined
+                      v-model="form.password"
+                      type="password"
+                      label="Ingresar la contraseña"
+                      data-vv-scope="crear_password"
+                      data-vv-name="contraseña"
+                      v-validate="'required|min:6'"
+                    ></v-text-field>
+                    <FormError
+                      :attribute_name="'crear_password.contraseña'"
+                      :errors_form="errors"
+                    ></FormError>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" @click="dialog_password = false"
+                >Cancelar</v-btn
+              >
+              <v-btn
+                color="blue darken-1"
+                @click="validar_formulario_password('crear_password')"
+                >Guardar</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-container>
     </v-main>
   </v-app>
@@ -105,7 +235,7 @@ import FormError from "./components/shared/FormError";
 
 export default {
   components: {
-    FormError
+    FormError,
   },
   data() {
     return {
@@ -115,11 +245,13 @@ export default {
       menu: false,
       form: {
         id: 0,
-        password: null
-      }
+        password: null,
+      },
     };
   },
-  created() {},
+  created() {
+    
+  },
   methods: {
     logout() {
       let self = this;
@@ -146,16 +278,16 @@ export default {
     },
 
     cambiar_password() {
-      this.loading = true
+      this.loading = true;
       this.form.id = this.$store.state.usuario.id;
-      this.dialog_password = true
-      this.loading = false
+      this.dialog_password = true;
+      this.loading = false;
     },
-    
+
     validar_formulario_password(scope) {
       this.$validator.validateAll(scope).then((result) => {
         if (result) {
-          /*this.$swal({
+          this.$swal({
             title: "Cambiar contraseña",
             text: "¿Está seguro de realizar esta acción?",
             type: "warning",
@@ -164,9 +296,8 @@ export default {
             if (result.value) {
               this.form.password = window.btoa(this.form.password);
               this.loading = true;
-              this.$store.state.services.UsuarioService.changePassword(
-                this.form
-              )
+              this.$store.state.services.userService
+                .reset(this.form)
                 .then((r) => {
                   if (r.response) {
                     if (r.response.data.code === 404) {
@@ -184,16 +315,16 @@ export default {
                         this.$toastr.error(value, "Mensaje");
                       }
                     }
-                    
-                   this.loading = false;
+
+                    this.loading = false;
                     return;
                   }
 
                   this.$toastr.success(r.data, "Mensaje");
-                  this.form.id = 0
-                  this.form.password = null
-                  this.dialog_password = false      
-                  this.logout()
+                  this.form.id = 0;
+                  this.form.password = null;
+                  this.dialog_password = false;
+                  this.logout();
                 })
                 .catch((r) => {
                   this.loading = false;
@@ -201,10 +332,18 @@ export default {
             } else {
               this.close();
             }
-          });*/
+          });
         }
       });
     },
+
+    ver(item) {
+      return _.includes(this.$store.state.permissions, item) 
+    },
+
+    ir(ruta) {
+      this.$router.push(`/${ruta}`);
+    }
   },
   computed: {
     isLogin() {
@@ -220,17 +359,42 @@ export default {
       return self.$store.state.is_login;
     },
 
-    userName() {
-      let self = this;
-      /*var user = self.$store.state.usuario;
-      if (!_.isEmpty(user)) {
-        return (
-          self.$store.state.usuario.people.names +
-          " " +
-          self.$store.state.usuario.people.surnames
-        );
-      }*/
+    usuario_nombre() {
+      if (!_.isEmpty(this.$store.state.usuario)) {
+        return this.$store.state.usuario.full_name;
+      }
       return "";
+    },
+
+    usuario_cui() {
+      if (!_.isEmpty(this.$store.state.usuario)) {
+        return this.$store.state.usuario.cui;
+      }
+      return "";
+    },
+
+    usuario_email() {
+      if (!_.isEmpty(this.$store.state.usuario)) {
+        return this.$store.state.usuario.email;
+      }
+      return "";
+    },
+
+    usuario_foto() {
+      if (!_.isEmpty(this.$store.state.usuario)) {
+        return this.$store.state.usuario.picture;
+      }
+      return null;
+    },
+
+    usuario_inicial() {
+      if (!_.isEmpty(this.$store.state.usuario)) {
+        return (
+          this.$store.state.usuario.name.charAt(0).toUpperCase() +
+          this.$store.state.usuario.surname.charAt(0).toUpperCase()
+        );
+      }
+      return "NA";
     },
 
     getMenu() {
@@ -238,16 +402,7 @@ export default {
       return self.$store.state.menu;
     },
 
-    getImage() {
-      let self = this;
-      return "";
-    },
-
     logo() {
-      return "";
-    },
-
-    logo_peque() {
       return "";
     },
   },

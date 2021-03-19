@@ -7,6 +7,7 @@ use App\Models\V1\Principal\Detail;
 use App\Models\V1\Principal\Status;
 use App\Models\V1\Seguridad\Usuario;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Deliverie extends Model
 {
@@ -33,12 +34,24 @@ class Deliverie extends Model
      */
     protected $fillable = [
         'docto_no',
+        'series',
         'seller',
         'description',
+        'doc_date',
         'delivery_time',
         'status_id',
         'client_id',
+        'firma',
         'user_id'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'firma'
     ];
 
     /**
@@ -47,7 +60,8 @@ class Deliverie extends Model
      * @var array
      */
     protected $casts = [
-        'delivery_time' => 'datetime:d/m/Y h:i:s a'
+        'delivery_time' => 'datetime:d/m/Y h:i:s a',
+        'doc_date' => 'date:d/m/Y'
     ];
 
     /**
@@ -55,7 +69,31 @@ class Deliverie extends Model
      *
      * @var array
      */
-    protected $dates = ['delivery_time'];
+    protected $dates = ['delivery_time', 'doc_date'];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['picture'];
+
+    /**
+     * Get the user's link base64 photo.
+     *
+     * @return string
+     */
+    public function getPictureAttribute()
+    {
+        $imagen = Storage::disk('firma')->exists($this->firma); //Preguntamos si la imagen existe creada local
+
+        if (!$imagen) { //Si la imagen no existe
+            return null;
+        }
+
+        $imagen = Storage::disk('firma')->get($this->firma); //Seleccionar la imagen
+        return "data:application/jpg;base64," . base64_encode($imagen);
+    }
 
     /**
      * Get the status associated with the deliveries.

@@ -8,7 +8,7 @@ class Status extends Model
 {
     const FACTURADO = 1;
     const EN_PROCESO = 2;
-    const ENTREGADO = 3;
+    const ACEPTADO = 3;
     const COMPLETO = 4;
     const CANCELADO = 5;
 

@@ -16,8 +16,8 @@ class CreateRolsTable extends Migration
         Schema::connection('sqlsrv')->create('rols', function (Blueprint $table) {
             $table->id();
             $table->string('name', 25)->unique();
-            $table->softDeletes();
-            $table->timestamps();
+            $table->softDeletes('deleted_at', 3);
+            $table->timestamps(3);
         });
     }
 

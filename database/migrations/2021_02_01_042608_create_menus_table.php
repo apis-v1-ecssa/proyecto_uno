@@ -20,7 +20,7 @@ class CreateMenusTable extends Migration
             $table->unsignedBigInteger('father');
             $table->boolean('hide')->default(0);
             $table->string('icon', 50)->nullable();   
-            $table->timestamps();
+            $table->timestamps(3);
         });
     }
 

@@ -20,11 +20,10 @@ class CreateDetailsTable extends Migration
             $table->integer('found')->default(0);
             $table->string('description', 1000);
             $table->string('observation', 500)->nullable();
-            $table->dateTime('delivery_time')->nullable();
+            $table->dateTime('delivery_time', 3)->nullable();
 
             $table->foreignId('status_id')->constrained('status');
             $table->foreignId('deliverie_id')->constrained('deliveries');
-            $table->foreignId('user_id')->constrained('users');
         });
     }
 

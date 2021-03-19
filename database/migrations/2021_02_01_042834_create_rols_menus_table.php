@@ -17,7 +17,7 @@ class CreateRolsMenusTable extends Migration
             $table->id();
             $table->foreignId('rol_id')->constrained('rols');
             $table->foreignId('menu_id')->constrained('menus');
-            $table->timestamps();
+            $table->timestamps(3);
         });
     }
 

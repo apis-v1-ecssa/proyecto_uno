@@ -18,6 +18,7 @@ class CreateClientsTable extends Migration
             $table->string('card_code', 25)->unique();
             $table->string('nit', 50);
             $table->string('name', 200);
+            $table->timestamps(3);
         });
     }
 

@@ -2,7 +2,6 @@
 
 namespace Laravel\Passport;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Token extends Model
@@ -52,8 +51,6 @@ class Token extends Model
      */
     protected $dates = [
         'expires_at',
-        'created_at', 
-        'updated_at'
     ];
 
     /**
@@ -173,6 +170,4 @@ class Token extends Model
     {
         return config('passport.storage.database.connection') ?? $this->connection;
     }
-
-    protected $dateFormat = 'Y-d-m H:i:s.u';
 }

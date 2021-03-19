@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 //rutas para VentaController
+Route::name('venta.aceptado')->get('aceptado', 'Venta\VentaController@aceptado');
 Route::name('venta.facturado')->get('facturado', 'Venta\VentaController@facturado');
 Route::name('venta.completo')->get('completo', 'Venta\VentaController@completo');
 Route::name('venta.anulado')->get('anulado', 'Venta\VentaController@anulado');
-Route::name('venta.completar_todo')->get('completar_todo/{deliverie}', 'Venta\VentaController@completar_todo');
+Route::name('venta.completar_todo')->put('completar_todo/{deliverie}', 'Venta\VentaController@completar_todo');
 Route::name('venta.cancelar')->get('cancelar/{deliverie}', 'Venta\VentaController@cancelar');
 Route::name('venta.entregar')->put('entregar/{deliverie}', 'Venta\VentaController@entregar');
+Route::name('venta.aceptar')->put('aceptar/{deliverie}', 'Venta\VentaController@aceptar');

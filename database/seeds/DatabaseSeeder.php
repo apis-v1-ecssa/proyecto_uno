@@ -28,14 +28,20 @@ class DatabaseSeeder extends Seeder
         Excel::import(new DepartamentoImport, 'database/seeds/Catalogos/Departamentos.xlsx');
         Excel::import(new MunicipioImport, 'database/seeds/Catalogos/Municipios.xlsx');
 
-        factory(Usuario::class, 1)->create();
+        $insert = new Usuario();
+        $insert->cui = '0000000000000';
+        $insert->name = 'Sistema';
+        $insert->surname = 'SAP';
+        $insert->email = 'sap@demo.com';
+        $insert->password = 'admin345';
+        $insert->departament_id = 1;
+        $insert->municipality_id = 1;
+        $insert->save();
 
-        UsuarioRol::create(
-            [
-                'user_id' => 1,
-                'rol_id' => 1
-            ]
-        );
+        factory(Usuario::class, 500)->create();
+        factory(UsuarioRol::class, 1500)->create();
+
+        UsuarioRol::where('user_id', 1)->delete();
 
         Status::create(
             [
@@ -55,16 +61,16 @@ class DatabaseSeeder extends Seeder
 
         Status::create(
             [
-                'name' => 'ENTREGADO',
-                'color' => '#36c3c7',
-                'description' => 'En este estado el producto fue entregado pero no en totalidad.'
+                'name' => 'ACEPTADO',
+                'color' => '#50c736',
+                'description' => 'El producto fue aceptado en conformidad.'
             ]
         );
 
         Status::create(
             [
                 'name' => 'COMPLETO',
-                'color' => '#50c736',
+                'color' => '#36c3c7',
                 'description' => 'En este estado el producto fue entregado completo.'
             ]
         );
@@ -84,6 +90,12 @@ class DatabaseSeeder extends Seeder
         DB::table('oauth_clients')
             ->where('id', 2)
             ->update(['secret' => 'fb8QYHjGOBKEL4S8CMDNkXW44lSHGmM6lrvoxwO1']);
+
+        DB::table('users')
+            ->where('id', 2)
+            ->update(['cui' => '2342008040608']);
+
+        
 
         Excel::import(new DataPrueba, 'database/seeds/Catalogos/Prueba.xlsx');
     }

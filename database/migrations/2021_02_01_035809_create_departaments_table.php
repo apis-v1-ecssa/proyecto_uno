@@ -16,7 +16,7 @@ class CreateDepartamentsTable extends Migration
         Schema::connection('sqlsrv')->create('departaments', function (Blueprint $table) {
             $table->id();
             $table->string('name', 125)->unique();
-            $table->timestamps();
+            $table->timestamps(3);
         });
     }
 

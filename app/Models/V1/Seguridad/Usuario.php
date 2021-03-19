@@ -51,8 +51,7 @@ class Usuario extends Authenticatable
         'url',
         'departament_id',
         'municipality_id',
-        'password',
-        'photo'
+        'password'
     ];
 
     /**

@@ -16,6 +16,10 @@ import Municipality from '@/components/catalogo/MunicipalityComponent'
 import Departament from '@/components/catalogo/DepartamentComponent'
 
 //Principal
+import Aceptado from '@/components/principal/AceptadoComponent'
+import Anulado from '@/components/principal/AnuladoComponent'
+import Bitacora from '@/components/principal/BitacoraComponent'
+import Completo from '@/components/principal/CompletoComponent'
 
 Vue.use(Router)
 
@@ -72,8 +76,29 @@ const routes = [{
   name: 'Departament',
   component: Departament,
   beforeEnter: multiguard([isLoggedIn, permissionsValidations])
-}
+},
 //Principal
+{
+  path: '/acept',
+  name: 'Aceptado',
+  component: Aceptado,
+  beforeEnter: multiguard([isLoggedIn, permissionsValidations])
+}, {
+  path: '/complete',
+  name: 'Completo',
+  component: Completo,
+  beforeEnter: multiguard([isLoggedIn, permissionsValidations])
+}, {
+  path: '/cancel',
+  name: 'Anulado',
+  component: Anulado,
+  beforeEnter: multiguard([isLoggedIn, permissionsValidations])
+}, {
+  path: '/binnacle',
+  name: 'Bitacora',
+  component: Bitacora,
+  beforeEnter: multiguard([isLoggedIn, permissionsValidations])
+}
 ]
 
 export default new Router({

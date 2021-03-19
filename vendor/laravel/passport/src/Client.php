@@ -2,9 +2,8 @@
 
 namespace Laravel\Passport;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Client extends Model
 {

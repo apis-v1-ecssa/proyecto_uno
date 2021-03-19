@@ -34,8 +34,8 @@ class CreateUsersTable extends Migration
             $table->foreignId('departament_id')->constrained('departaments');
             $table->foreignId('municipality_id')->constrained('municipalities');
 
-            $table->softDeletes();
-            $table->timestamps();
+            $table->softDeletes('deleted_at', 3);
+            $table->timestamps(3);
         });
     }
 

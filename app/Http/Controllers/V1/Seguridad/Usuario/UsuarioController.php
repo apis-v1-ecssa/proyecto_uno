@@ -55,7 +55,7 @@ class UsuarioController extends ApiController
      */
     public function index()
     {
-        $users = Usuario::with('departament', 'municipality', 'rols.rol')->withTrashed()->orderByDesc('id')->get();
+        $users = Usuario::with('departament', 'municipality', 'rols.rol')->withTrashed()->where('id', '!=', 1)->orderByDesc('id')->get();
         return $this->showAll($users);
     }
 

@@ -32,7 +32,7 @@ class RolMenuImport implements ToCollection
                     $combicacion = $value[5];
                     $roles = array();
                     switch ($combicacion) {
-                        case 'ADMIN_OPE':
+                        case 'ADMIN_VEN':
                             $admin = Rol::firstOrCreate(['name' => $value[6]]);
                             $operador = Rol::firstOrCreate(['name' => $value[7]]);
                             array_push($roles, $admin->id);
