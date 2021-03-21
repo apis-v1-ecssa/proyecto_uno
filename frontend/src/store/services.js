@@ -20,6 +20,7 @@ import municipalityService from '../services/catalogo/municipio/MunicipalityServ
 
 /* ::::::::::::::::::::::::::::::::::::::::::::: PRINCIPAL :::::::::::::::::::::::::::::::::::::::::::::::: */
 import ventaService from '../services/principal/VentaService'
+import bitacoraService from '../services/principal/BitacoraService'
 /* :::::::::::::::::::::::::::::::::::: FIN DE LOS IMPORT DE PRINCIPAL ::::::::::::::::::::::::::::::::::::: */
 
 
@@ -90,4 +91,5 @@ export default {
   municipalityService: new municipalityService(Axios, baseUrl),
 //Principal
   ventaService: new ventaService(Axios, baseUrl),
+  bitacoraService: new bitacoraService(Axios, baseUrl)
 }

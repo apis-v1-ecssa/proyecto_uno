@@ -22,3 +22,7 @@ Route::name('venta.completar_todo')->put('completar_todo/{deliverie}', 'Venta\Ve
 Route::name('venta.cancelar')->get('cancelar/{deliverie}', 'Venta\VentaController@cancelar');
 Route::name('venta.entregar')->put('entregar/{deliverie}', 'Venta\VentaController@entregar');
 Route::name('venta.aceptar')->put('aceptar/{deliverie}', 'Venta\VentaController@aceptar');
+
+//rutas para BitacoraController
+Route::name('bitacora.index')->get('bitacora', 'Bitacora\BitacoraController@index');
+Route::name('bitacora.venta')->get('bitacora/venta/{deliverie}', 'Bitacora\BitacoraController@venta');
