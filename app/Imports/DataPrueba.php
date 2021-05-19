@@ -32,7 +32,7 @@ class DataPrueba implements ToCollection
                         ['nit' => is_null($value[5]) ? 'CF' : $value[5], 'name' => is_null($value[1]) ? 'NA' : $value[1]]
                     );
 
-                    if(is_numeric($value[2]) && strlen($value[8]) < 100 && strlen($value[3]) < 20) {
+                    if (is_numeric($value[2]) && strlen($value[8]) < 100 && strlen($value[3]) < 20) {
                         $venta = Deliverie::where('docto_no', $value[2])->first();
 
                         if (is_null($venta)) {
@@ -55,7 +55,7 @@ class DataPrueba implements ToCollection
                         if (is_numeric($value[6])) {
                             $detalle = Detail::create(
                                 [
-                                    'item_code' => '$value[9]',
+                                    'item_code' => $value[9],
                                     'amount' => $value[6],
                                     'found' => 0,
                                     'description' => $value[7],

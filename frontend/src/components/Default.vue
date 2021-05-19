@@ -15,7 +15,7 @@
       >
         <template v-slot:header>
           <v-toolbar class="mb-2" color="indigo darken-5" dark flat>
-            <v-toolbar-title> Ordenes facturadas </v-toolbar-title>
+            <v-toolbar-title>Ordenes facturadas</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-text-field
               v-model="search"
@@ -27,9 +27,9 @@
               label="Buscar"
             ></v-text-field>
             <v-spacer></v-spacer>
-            <v-btn class="mr-1" color="success" @click="facturados"
-              >Recargar</v-btn
-            >
+            <v-btn class="mr-1" color="success" @click="facturados">
+              Recargar
+            </v-btn>
           </v-toolbar>
         </template>
 
@@ -53,11 +53,11 @@
                 </v-chip>
                 <v-chip class="ma-2" color="orange" text-color="white">
                   {{ item.series }}
-                  <v-icon right> mdi-star </v-icon>
+                  <v-icon right>mdi-star</v-icon>
                 </v-chip>
                 <v-chip class="ma-2" color="success" text-color="white">
                   {{ item.doc_date }}
-                  <v-icon right> mdi-server-plus </v-icon>
+                  <v-icon right>mdi-server-plus</v-icon>
                 </v-chip>
                 <v-chip class="ma-2" color="teal" text-color="white">
                   <v-avatar left>
@@ -75,9 +75,9 @@
                 >
                   <v-list-item>
                     <v-list-item-content>
-                      <v-list-item-title
-                        ><h3>{{ producto.item_code }}</h3></v-list-item-title
-                      >
+                      <v-list-item-title>
+                        <h3>{{ producto.item_code }}</h3>
+                      </v-list-item-title>
                       {{ producto.amount }} | {{ producto.description }}
                     </v-list-item-content>
                     <v-list-item-content class="align-end">
@@ -106,54 +106,56 @@
                   <div
                     class="text-center d-flex align-center justify-space-around"
                   >
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          color="primary"
-                          dark
-                          v-bind="attrs"
-                          v-on="on"
-                          @click="guardar(item)"
-                        >
-                          Guardar avance
-                        </v-btn>
-                      </template>
-                      <span
-                        >Completar uno a uno los productos hasta que el sistema
-                        detecta que los productos están completos.</span
-                      >
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          color="success"
-                          dark
-                          v-bind="attrs"
-                          v-on="on"
-                          @click="entregar(item)"
-                        >
-                          Entrega completo
-                        </v-btn>
-                      </template>
-                      <span
-                        >Completar la orden para la entrega, no es necesario
-                        ingresar los valores.</span
-                      >
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          color="error"
-                          dark
-                          v-bind="attrs"
-                          v-on="on"
-                          @click="cancelar(item)"
-                        >
-                          Cancelar
-                        </v-btn>
-                      </template>
-                      <span>Cancelar entrega.</span>
-                    </v-tooltip>
+                    <v-btn-toggle v-model="toggle_exclusive" mandatory>
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            color="primary"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="guardar(item)"
+                          >
+                            Guardar avance
+                          </v-btn>
+                        </template>
+                        <span>
+                          Completar uno a uno los productos hasta que el sistema
+                          detecta que los productos están completos.
+                        </span>
+                      </v-tooltip>
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            color="success"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="entregar(item)"
+                          >
+                            Entrega completo
+                          </v-btn>
+                        </template>
+                        <span>
+                          Completar la orden para la entrega, no es necesario
+                          ingresar los valores.
+                        </span>
+                      </v-tooltip>
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            color="error"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                            @click="cancelar(item)"
+                          >
+                            Cancelar
+                          </v-btn>
+                        </template>
+                        <span>Cancelar entrega.</span>
+                      </v-tooltip>
+                    </v-btn-toggle>
                   </div>
                 </v-card-actions>
 
@@ -224,10 +226,10 @@
                     Firmar
                   </v-btn>
                 </template>
-                <span
-                  >El cliente acepta de conformidad los productos facturados y
-                  entregados.</span
-                >
+                <span>
+                  El cliente acepta de conformidad los productos facturados y
+                  entregados.
+                </span>
               </v-tooltip>
             </v-toolbar-items>
           </v-toolbar>
@@ -268,14 +270,14 @@
 
 <script>
 export default {
-  name: "Default",
+  name: 'Default',
   components: {},
   data() {
     return {
       loading: false,
       dialog: false,
       itemsPerPage: 100,
-      search: "",
+      search: '',
       items: [],
       form: {
         id: 0,
@@ -287,264 +289,264 @@ export default {
       mousePos: { x: 0, y: 0 },
       lastPos: null,
       tint: null,
-    };
+    }
   },
 
   mounted() {
-    this.canvas = this.$refs.canvas_img;
-    this.ctx = this.canvas.getContext("2d");
-    this.canvas.height = window.innerHeight;
-    this.canvas.width = window.innerWidth;
+    this.canvas = this.$refs.canvas_img
+    this.ctx = this.canvas.getContext('2d')
+    this.canvas.height = window.innerHeight
+    this.canvas.width = window.innerWidth
   },
 
   created() {
-    this.facturados();
+    this.facturados()
   },
 
   methods: {
     facturados() {
-      this.loading = true;
-      this.lastPos = this.mousePos;
+      this.loading = true
+      this.lastPos = this.mousePos
 
       this.$store.state.services.ventaService
         .facturado()
         .then((r) => {
           if (r.response) {
             if (r.response.data.code === 423) {
-              this.$toastr.error(r.response.data.error, "Mensaje");
+              this.$toastr.error(r.response.data.error, 'Mensaje')
             } else {
               for (let value of Object.values(r.response.data.error)) {
-                this.$toastr.error(value, "Mensaje");
+                this.$toastr.error(value, 'Mensaje')
               }
             }
-            this.loading = false;
-            return;
+            this.loading = false
+            return
           }
 
-          this.items = r.data;
-          this.dialog = false;
-          this.loading = false;
+          this.items = r.data
+          this.dialog = false
+          this.loading = false
         })
         .catch((r) => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     },
 
     entregar(item) {
-      let descrip = null;
+      let descrip = null
       this.$swal({
-        title: "Agregar una descripción",
-        input: "textarea",
-        inputPlaceholder: "Agregar descripción...",
+        title: 'Agregar una descripción',
+        input: 'textarea',
+        inputPlaceholder: 'Agregar descripción...',
         inputAttributes: {
-          "aria-label": "Type your message here",
+          'aria-label': 'Type your message here',
         },
         showCancelButton: false,
-        confirmButtonText: "Agregar",
+        confirmButtonText: 'Agregar',
         preConfirm: (descripcion) => {
-          descrip = descripcion;
+          descrip = descripcion
         },
       }).then((result) => {
         this.$swal({
-          title: "Entregar Producto Completo",
-          text: "¿Está seguro de realizar esta acción?",
-          type: "success",
+          title: 'Entregar Producto Completo',
+          text: '¿Está seguro de realizar esta acción?',
+          type: 'success',
           showCancelButton: true,
         }).then((result) => {
           if (result.value) {
-            let data = new Object();
-            data.id = item.id;
-            data.description = descrip;
+            let data = new Object()
+            data.id = item.id
+            data.description = descrip
 
-            this.loading = true;
+            this.loading = true
             this.$store.state.services.ventaService
               .completar_todo(data)
               .then((r) => {
-                this.loading = false;
+                this.loading = false
 
                 if (r.response) {
                   if (r.response.data.code === 404) {
-                    this.$toastr.warning(r.response.data.error, "Advertencia");
-                    return;
+                    this.$toastr.warning(r.response.data.error, 'Advertencia')
+                    return
                   } else if (r.response.data.code === 423) {
-                    this.$toastr.warning(r.response.data.error, "Advertencia");
-                    return;
+                    this.$toastr.warning(r.response.data.error, 'Advertencia')
+                    return
                   } else {
                     for (let value of Object.values(r.response.data)) {
-                      this.$toastr.error(value, "Mensaje");
+                      this.$toastr.error(value, 'Mensaje')
                     }
                   }
-                  return;
+                  return
                 }
 
-                this.$toastr.success(r.data, "Mensaje");
-                this.facturados();
+                this.$toastr.success(r.data, 'Mensaje')
+                this.facturados()
               })
               .catch((r) => {
-                this.loading = false;
-              });
+                this.loading = false
+              })
           }
-        });
-      });
+        })
+      })
     },
 
     guardar(item) {
       this.$swal({
-        title: "Entregar Producto",
-        text: "¿Está seguro de realizar esta acción?",
-        type: "success",
+        title: 'Entregar Producto',
+        text: '¿Está seguro de realizar esta acción?',
+        type: 'success',
         showCancelButton: true,
       }).then((result) => {
         if (result.value) {
-          let data = new Object();
-          data.id = item.id;
-          data.detail = item.detail;
+          let data = new Object()
+          data.id = item.id
+          data.detail = item.detail
 
-          this.loading = true;
+          this.loading = true
           this.$store.state.services.ventaService
             .entregar(data)
             .then((r) => {
-              this.loading = false;
+              this.loading = false
 
               if (r.response) {
                 if (r.response.data.code === 404) {
-                  this.$toastr.warning(r.response.data.error, "Advertencia");
-                  return;
+                  this.$toastr.warning(r.response.data.error, 'Advertencia')
+                  return
                 } else if (r.response.data.code === 423) {
-                  this.$toastr.warning(r.response.data.error, "Advertencia");
-                  return;
+                  this.$toastr.warning(r.response.data.error, 'Advertencia')
+                  return
                 } else {
                   for (let value of Object.values(r.response.data)) {
-                    this.$toastr.error(value, "Mensaje");
+                    this.$toastr.error(value, 'Mensaje')
                   }
                 }
-                return;
+                return
               }
 
-              this.$toastr.success(r.data, "Mensaje");
-              this.facturados();
+              this.$toastr.success(r.data, 'Mensaje')
+              this.facturados()
             })
             .catch((r) => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         }
-      });
+      })
     },
 
     cancelar(item) {
       this.$swal({
-        title: "Cancelar Entrega",
-        text: "¿Está seguro de realizar esta acción?",
-        type: "error",
+        title: 'Cancelar Entrega',
+        text: '¿Está seguro de realizar esta acción?',
+        type: 'error',
         showCancelButton: true,
       }).then((result) => {
         if (result.value) {
-          let data = new Object();
-          data.id = item.id;
+          let data = new Object()
+          data.id = item.id
 
-          this.loading = true;
+          this.loading = true
           this.$store.state.services.ventaService
             .cancelar(data)
             .then((r) => {
-              this.loading = false;
+              this.loading = false
 
               if (r.response) {
                 if (r.response.data.code === 404) {
-                  this.$toastr.warning(r.response.data.error, "Advertencia");
-                  return;
+                  this.$toastr.warning(r.response.data.error, 'Advertencia')
+                  return
                 } else if (r.response.data.code === 423) {
-                  this.$toastr.warning(r.response.data.error, "Advertencia");
-                  return;
+                  this.$toastr.warning(r.response.data.error, 'Advertencia')
+                  return
                 } else {
                   for (let value of Object.values(r.response.data)) {
-                    this.$toastr.error(value, "Mensaje");
+                    this.$toastr.error(value, 'Mensaje')
                   }
                 }
-                return;
+                return
               }
 
-              this.$toastr.success(r.data, "Mensaje");
-              this.facturados();
+              this.$toastr.success(r.data, 'Mensaje')
+              this.facturados()
             })
             .catch((r) => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         }
-      });
+      })
     },
 
     recibir(item) {
-      this.form.id = item.id;
-      this.form.firma = null;
-      this.canvas.width = this.canvas.width;
-      this.dialog = true;
+      this.form.id = item.id
+      this.form.firma = null
+      this.canvas.width = this.canvas.width
+      this.dialog = true
     },
 
     firmar() {
       this.$swal({
-        title: "Firmar y Aceptar",
-        text: "¿Está seguro de realizar esta acción?",
-        type: "success",
+        title: 'Firmar y Aceptar',
+        text: '¿Está seguro de realizar esta acción?',
+        type: 'success',
         showCancelButton: true,
       }).then((result) => {
         if (result.value) {
-          let data = new Object();
-          data.id = this.form.id;
-          data.firma = this.canvas.toDataURL();
+          let data = new Object()
+          data.id = this.form.id
+          data.firma = this.canvas.toDataURL()
 
-          this.loading = true;
+          this.loading = true
           this.$store.state.services.ventaService
             .aceptar(data)
             .then((r) => {
-              this.loading = false;
+              this.loading = false
 
               if (r.response) {
                 if (r.response.data.code === 404) {
-                  this.$toastr.warning(r.response.data.error, "Advertencia");
-                  return;
+                  this.$toastr.warning(r.response.data.error, 'Advertencia')
+                  return
                 } else if (r.response.data.code === 423) {
-                  this.$toastr.warning(r.response.data.error, "Advertencia");
-                  return;
+                  this.$toastr.warning(r.response.data.error, 'Advertencia')
+                  return
                 } else {
                   for (let value of Object.values(r.response.data)) {
-                    this.$toastr.error(value, "Mensaje");
+                    this.$toastr.error(value, 'Mensaje')
                   }
                 }
-                return;
+                return
               }
 
-              this.$toastr.success(r.data, "Mensaje");
-              this.facturados();
+              this.$toastr.success(r.data, 'Mensaje')
+              this.facturados()
             })
             .catch((r) => {
-              this.loading = false;
-            });
+              this.loading = false
+            })
         }
-      });
+      })
     },
 
     //Funciones para la firma
     startPainting(event) {
-      this.painting = true;
-      this.lastPos = this.getMousePos(this.canvas, event);
+      this.painting = true
+      this.lastPos = this.getMousePos(this.canvas, event)
       //this.draw(event);
     },
     finishedPainting() {
-      this.painting = false;
+      this.painting = false
       //this.ctx.beginPath();
     },
     draw(event) {
-      this.mousePos = this.getMousePos(this.canvas, event);
+      this.mousePos = this.getMousePos(this.canvas, event)
       if (this.painting) {
-        this.ctx.strokeStyle = "#000000";
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.lastPos.x, this.lastPos.y);
-        this.ctx.lineTo(this.mousePos.x, this.mousePos.y);
-        this.ctx.lineWidth = 11;
-        this.ctx.lineCap = "round";
-        this.ctx.stroke();
-        this.ctx.closePath();
-        this.lastPos = this.mousePos;
+        this.ctx.strokeStyle = '#000000'
+        this.ctx.beginPath()
+        this.ctx.moveTo(this.lastPos.x, this.lastPos.y)
+        this.ctx.lineTo(this.mousePos.x, this.mousePos.y)
+        this.ctx.lineWidth = 11
+        this.ctx.lineCap = 'round'
+        this.ctx.stroke()
+        this.ctx.closePath()
+        this.lastPos = this.mousePos
       }
       /*if (!this.painting) return;
 
@@ -558,60 +560,60 @@ export default {
       this.ctx.moveTo(event.clientX, event.clientY);*/
     },
     limpiar() {
-      this.canvas.width = this.canvas.width;
+      this.canvas.width = this.canvas.width
     },
 
     //Otras funciones
     getMousePos(canvasDom, mouseEvent) {
-      var rect = canvasDom.getBoundingClientRect();
+      var rect = canvasDom.getBoundingClientRect()
 
       return {
         x: mouseEvent.clientX - rect.left,
         y: mouseEvent.clientY - rect.top,
-      };
+      }
     },
 
     getTouchPos(canvasDom, touchEvent) {
-      var rect = canvasDom.getBoundingClientRect();
+      var rect = canvasDom.getBoundingClientRect()
 
       return {
         x: touchEvent.touches[0].clientX - rect.left,
         y: touchEvent.touches[0].clientY - rect.top,
-      };
+      }
     },
 
     startTouch(event) {
-      this.mousePos = this.getTouchPos(this.canvas, event);
-      event.preventDefault();
-      var touch = event.touches[0];
-      var mouseEvent = new MouseEvent("mousedown", {
+      this.mousePos = this.getTouchPos(this.canvas, event)
+      event.preventDefault()
+      var touch = event.touches[0]
+      var mouseEvent = new MouseEvent('mousedown', {
         clientX: touch.clientX,
         clientY: touch.clientY,
-      });
-      this.canvas.dispatchEvent(mouseEvent);
+      })
+      this.canvas.dispatchEvent(mouseEvent)
     },
 
     finishedTouch(event) {
-      event.preventDefault();
-      var mouseEvent = new MouseEvent("mouseup", {});
-      this.canvas.dispatchEvent(mouseEvent);
+      event.preventDefault()
+      var mouseEvent = new MouseEvent('mouseup', {})
+      this.canvas.dispatchEvent(mouseEvent)
     },
 
     leaveTouch(event) {
-      event.preventDefault(); // Prevent scrolling when touching the canvas
-      var mouseEvent = new MouseEvent("mouseup", {});
-      this.canvas.dispatchEvent(mouseEvent);
+      event.preventDefault() // Prevent scrolling when touching the canvas
+      var mouseEvent = new MouseEvent('mouseup', {})
+      this.canvas.dispatchEvent(mouseEvent)
     },
 
     moveTouch(event) {
-      event.preventDefault(); // Prevent scrolling when touching the canvas
-      var touch = event.touches[0];
-      var mouseEvent = new MouseEvent("mousemove", {
+      event.preventDefault() // Prevent scrolling when touching the canvas
+      var touch = event.touches[0]
+      var mouseEvent = new MouseEvent('mousemove', {
         clientX: touch.clientX,
         clientY: touch.clientY,
-      });
-      this.canvas.dispatchEvent(mouseEvent);
+      })
+      this.canvas.dispatchEvent(mouseEvent)
     },
   },
-};
+}
 </script>

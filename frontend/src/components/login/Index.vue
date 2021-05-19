@@ -1,14 +1,22 @@
 <template>
-  <v-row align="center" justify="center">
+  <v-row
+    align="center"
+    justify="center"
+    class="fondo animate__animated animate__rubberBand"
+  >
     <v-overlay :value="loading">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
-    <v-col cols="12" md="4">
+    <v-col sm="5" md="4" lg="3">
       <v-list-item style="background: #444140;">
         <v-list-item-content class="text-center" style="color: white;">
-          <img :src="logo" />
-          <v-list-item-title class="headline">Inicio de Sesión</v-list-item-title>
-          <v-list-item-subtitle style="color: white;">Sistema</v-list-item-subtitle>
+          <img :src="getLogo" width="5px" />
+          <v-list-item-title class="headline">
+            Inicio de Sesión
+          </v-list-item-title>
+          <v-list-item-subtitle style="color: white;">
+            Sistema
+          </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
       <v-card class="elevation-12">
@@ -21,9 +29,15 @@
               prepend-icon="mdi-account"
               placeholder="número de dpi"
               v-validate="'required|numeric'"
-              :class="{'input':true,'has-errors': errors.has('número de dpi')}"
+              :class="{
+                input: true,
+                'has-errors': errors.has('número de dpi'),
+              }"
             ></v-text-field>
-            <FormError :attribute_name="'número de dpi'" :errors_form="errors"></FormError>
+            <FormError
+              :attribute_name="'número de dpi'"
+              :errors_form="errors"
+            ></FormError>
 
             <v-text-field
               @keypress.enter="beforeLogin"
@@ -33,9 +47,12 @@
               v-model="credentials.password"
               placeholder="Password"
               v-validate="'required'"
-              :class="{'input':true,'has-errors': errors.has('contraseña')}"
+              :class="{ input: true, 'has-errors': errors.has('contraseña') }"
             ></v-text-field>
-            <FormError :attribute_name="'contraseña'" :errors_form="errors"></FormError>
+            <FormError
+              :attribute_name="'contraseña'"
+              :errors_form="errors"
+            ></FormError>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -48,11 +65,21 @@
   </v-row>
 </template>
 
+<style scoped>
+.fondo {
+  height: 100%;
+  background-repeat: no-repeat;
+  background: url(https://designshack.net/wp-content/uploads/tips-for-using-background-textures-in-web-design.jpg)
+    no-repeat center center fixed;
+  background-size: 100% 100%;
+}
+</style>
+
 <script>
-import FormError from "../shared/FormError";
-import auth from "../../auth";
+import FormError from '../shared/FormError'
+import auth from '../../auth'
 export default {
-  name: "Login",
+  name: 'Login',
   components: {
     FormError,
   },
@@ -61,48 +88,52 @@ export default {
     return {
       loading: false,
       credentials: {
-        cui: "",
-        password: "",
+        cui: '',
+        password: '',
       },
-    };
+    }
   },
 
   created() {
-    let self = this;
+    let self = this
   },
   methods: {
     login() {
-      let self = this;
-      self.loading = true;
+      let self = this
+      self.loading = true
       self.$store.state.services.loginService
         .login(self.credentials)
         .then((r) => {
-          self.loading = false;
+          self.loading = false
           if (self.$store.state.global.captureError(r)) {
-            self.loading = false;
-            return;
+            self.loading = false
+            return
           }
-          self.$store.dispatch("guardarToken", r.data);
-          auth.getUser();
-          self.$router.push("/");
+          self.$store.dispatch('guardarToken', r.data)
+          auth.getUser()
+          self.$router.push('/')
         })
-        .catch((e) => {});
+        .catch((e) => {})
     },
 
     beforeLogin() {
-      let self = this;
+      let self = this
       self.$validator.validateAll().then((result) => {
         if (result) {
-          self.login();
+          self.login()
         }
-      });
+      })
     },
   },
 
   computed: {
-    logo() {
-      return ""
+    getLogo() {
+      let self = this
+      let logo = this.$cookies.get('logo')
+        ? this.$cookies.get('logo')
+        : 'conectividad_1.jpeg'
+      return `${self.$store.state.base_url}img/${logo}`
     },
   },
-};
+}
 </script>

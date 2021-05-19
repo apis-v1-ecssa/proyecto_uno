@@ -11,31 +11,41 @@
       app
       clipped
       width="300"
+      class="animate__animated animate__backInLeft animate__delay-1s"
     >
+      <v-row justify="space-around">
+        <v-col cols="12" sm="12" md="12">
+          <v-sheet elevation="10" class="py-4 px-1">
+            <v-chip-group
+              v-model="seleccionado"
+              mandatory
+              active-class="primary--text"
+            >
+              <v-chip
+                v-for="tag in tags"
+                :key="tag"
+                :value="tag"
+                @click="cambiar_logo(tag)"
+              >
+                {{ tag }}
+              </v-chip>
+            </v-chip-group>
+          </v-sheet>
+        </v-col>
+      </v-row>
       <v-card class="mx-auto" max-width="434" tile>
-        <v-img
-          height="100%"
-          src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
-        >
-          <v-row align="end" class="fill-height">
-            <v-col align-self="start" class="pa-0" cols="12">
-              <v-avatar class="profile" color="grey" size="164" tile>
-                <v-img
-                  :aspect-ratio="16 / 10"
-                  :src="
-                    usuario_foto
-                      ? usuario_foto
-                      : 'https://cdn.vuetifyjs.com/images/profiles/marcus.jpg'
-                  "
-                ></v-img>
-              </v-avatar>
-            </v-col>
-            <v-col class="py-0">
-              <v-list-item color="rgba(0, 0, 0, .4)" dark>
+        <v-img height="100%" :src="getLogo">
+          <v-row>
+            <v-col>
+              <v-list-item dark>
                 <v-list-item-content>
-                  <v-list-item-title class="title" v-text="usuario_nombre">
-                  </v-list-item-title>
+                  <v-list-item-title
+                    class="title"
+                    :style="style"
+                    v-text="usuario_nombre"
+                  ></v-list-item-title>
                   <v-list-item-subtitle
+                    :style="style"
                     v-text="usuario_email"
                   ></v-list-item-subtitle>
                 </v-list-item-content>
@@ -89,6 +99,7 @@
       app
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       dense
+      class="animate__animated animate__backInDown animate__delay-2s"
     >
       <v-app-bar-nav-icon @click="mostar"></v-app-bar-nav-icon>
 
@@ -168,7 +179,10 @@
     </v-app-bar>
 
     <v-main>
-      <v-container class="fill-height" fluid>
+      <v-container
+        class="fill-height animate__animated animate__backInUp animate__delay-3s"
+        fluid
+      >
         <router-view></router-view>
 
         <v-dialog
@@ -214,14 +228,15 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" @click="dialog_password = false"
-                >Cancelar</v-btn
-              >
+              <v-btn color="blue darken-1" @click="dialog_password = false">
+                Cancelar
+              </v-btn>
               <v-btn
                 color="blue darken-1"
                 @click="validar_formulario_password('crear_password')"
-                >Guardar</v-btn
               >
+                Guardar
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -231,7 +246,7 @@
 </template>
 
 <script>
-import FormError from "./components/shared/FormError";
+import FormError from './components/shared/FormError'
 
 export default {
   components: {
@@ -247,144 +262,176 @@ export default {
         id: 0,
         password: null,
       },
-    };
+      logo: 'conectividad_3.jpeg',
+      tags: ['Negro', 'Naranja', 'Blanco'],
+      style: 'color: white;',
+      seleccionado: '',
+    }
   },
-  created() {
-    
-  },
+  created() {},
   methods: {
     logout() {
-      let self = this;
-      self.loading = true;
+      let self = this
+      self.loading = true
       self.$store.state.services.loginService
         .logout()
         .then((r) => {
-          self.$store.dispatch("logout");
-          self.$router.push("/login");
-          self.drawer = null;
-          self.$store.state.is_login = false;
-          self.loading = false;
+          self.$store.dispatch('logout')
+          self.$router.push('/login')
+          self.drawer = null
+          self.$store.state.is_login = false
+          self.loading = false
         })
-        .catch((e) => {});
+        .catch((e) => {})
     },
 
     redirect(item) {
-      this.$router.push({ path: item });
+      this.$router.push({ path: item })
     },
 
     mostar() {
-      let self = this;
-      self.drawer = self.drawer ? false : true;
+      let self = this
+      self.drawer = self.drawer ? false : true
     },
 
     cambiar_password() {
-      this.loading = true;
-      this.form.id = this.$store.state.usuario.id;
-      this.dialog_password = true;
-      this.loading = false;
+      this.loading = true
+      this.form.id = this.$store.state.usuario.id
+      this.dialog_password = true
+      this.loading = false
     },
 
     validar_formulario_password(scope) {
       this.$validator.validateAll(scope).then((result) => {
         if (result) {
           this.$swal({
-            title: "Cambiar contraseña",
-            text: "¿Está seguro de realizar esta acción?",
-            type: "warning",
+            title: 'Cambiar contraseña',
+            text: '¿Está seguro de realizar esta acción?',
+            type: 'warning',
             showCancelButton: true,
           }).then((result) => {
             if (result.value) {
-              this.form.password = window.btoa(this.form.password);
-              this.loading = true;
+              this.form.password = window.btoa(this.form.password)
+              this.loading = true
               this.$store.state.services.userService
                 .reset(this.form)
                 .then((r) => {
                   if (r.response) {
                     if (r.response.data.code === 404) {
-                      this.$toastr.warning(
-                        r.response.data.error,
-                        "Advertencia"
-                      );
+                      this.$toastr.warning(r.response.data.error, 'Advertencia')
                     } else if (r.response.data.code === 423) {
-                      this.$toastr.warning(
-                        r.response.data.error,
-                        "Advertencia"
-                      );
+                      this.$toastr.warning(r.response.data.error, 'Advertencia')
                     } else {
                       for (let value of Object.values(r.response.data)) {
-                        this.$toastr.error(value, "Mensaje");
+                        this.$toastr.error(value, 'Mensaje')
                       }
                     }
 
-                    this.loading = false;
-                    return;
+                    this.loading = false
+                    return
                   }
 
-                  this.$toastr.success(r.data, "Mensaje");
-                  this.form.id = 0;
-                  this.form.password = null;
-                  this.dialog_password = false;
-                  this.logout();
+                  this.$toastr.success(r.data, 'Mensaje')
+                  this.form.id = 0
+                  this.form.password = null
+                  this.dialog_password = false
+                  this.logout()
                 })
                 .catch((r) => {
-                  this.loading = false;
-                });
+                  this.loading = false
+                })
             } else {
-              this.close();
+              this.close()
             }
-          });
+          })
         }
-      });
+      })
+    },
+
+    cambiar_logo(color) {
+      const COLORES_EXISTENTES = {
+        Negro: {
+          logo: 'conectividad_3.jpeg',
+          style: 'color: white;',
+          theme: false,
+        },
+        Naranja: {
+          logo: 'conectividad_1.jpeg',
+          style: 'color: white;',
+          theme: true,
+        },
+        Blanco: {
+          logo: 'conectividad_2.jpeg',
+          style: 'color: black;',
+          theme: true,
+        },
+      }
+
+      const existe = COLORES_EXISTENTES[color] || COLORES_EXISTENTES['Negro']
+      this.seleccionado = color
+      this.$cookies.set('color', color)
+      this.$cookies.set('logo', existe.logo)
+      this.$cookies.set('style', existe.style)
+      this.$cookies.set('theme', existe.theme)
+      this.logo = this.$cookies.get('logo')
+      this.style = this.$cookies.get('style')
+      this.$vuetify.theme.dark = this.$cookies.get('theme')
+      this.$forceUpdate()
     },
 
     ver(item) {
-      return _.includes(this.$store.state.permissions, item) 
+      return _.includes(this.$store.state.permissions, item)
     },
 
     ir(ruta) {
-      this.$router.push(`/${ruta}`);
-    }
+      this.$router.push(`/${ruta}`)
+    },
   },
   computed: {
     isLogin() {
-      let self = this;
+      let self = this
 
       if (self.$store.state.is_login) {
-        this.drawer = true;
-        this.$vuetify.theme.dark = true;
+        this.drawer = true
+        this.logo = this.$cookies.get('logo')
+        this.style = this.$cookies.get('style')
+        this.seleccionado = this.$cookies.get('color')
+          ? this.$cookies.get('color')
+          : 'Negro'
+        this.$vuetify.theme.dark = this.$cookies.get('theme')
       } else {
-        this.$vuetify.theme.dark = false;
+        this.$vuetify.theme.dark = false
       }
 
-      return self.$store.state.is_login;
+      return self.$store.state.is_login
     },
 
     usuario_nombre() {
       if (!_.isEmpty(this.$store.state.usuario)) {
-        return this.$store.state.usuario.full_name;
+        return this.$store.state.usuario.full_name
       }
-      return "";
+      return ''
     },
 
     usuario_cui() {
       if (!_.isEmpty(this.$store.state.usuario)) {
-        return this.$store.state.usuario.cui;
+        return this.$store.state.usuario.cui
       }
-      return "";
+      return ''
     },
 
     usuario_email() {
       if (!_.isEmpty(this.$store.state.usuario)) {
-        return this.$store.state.usuario.email;
+        return this.$store.state.usuario.email
       }
-      return "";
+      return ''
     },
 
     usuario_foto() {
       if (!_.isEmpty(this.$store.state.usuario)) {
-        return this.$store.state.usuario.picture;
+        return this.$store.state.usuario.picture
       }
-      return null;
+      return null
     },
 
     usuario_inicial() {
@@ -392,19 +439,20 @@ export default {
         return (
           this.$store.state.usuario.name.charAt(0).toUpperCase() +
           this.$store.state.usuario.surname.charAt(0).toUpperCase()
-        );
+        )
       }
-      return "NA";
+      return 'NA'
     },
 
     getMenu() {
-      let self = this;
-      return self.$store.state.menu;
+      let self = this
+      return self.$store.state.menu
     },
 
-    logo() {
-      return "";
+    getLogo() {
+      let self = this
+      return `${self.$store.state.base_url}img/${self.logo}`
     },
   },
-};
+}
 </script>

@@ -25,8 +25,8 @@ import bitacoraService from '../services/principal/BitacoraService'
 
 
 // Para desarrollo
-let baseUrl = 'http://172.31.253.59/service_detalle/'
-//let baseUrl = 'http://localhost:8001/apis/public/' //base url desarrollo
+//let baseUrl = 'http://172.31.253.59/service_detalle/'
+let baseUrl = 'http://localhost:8001/apis/public/' //base url desarrollo
 let token_data = $cookies.get('token_data')
 
 // Axios Configuration
@@ -79,17 +79,17 @@ instance.interceptors.response.use(response => {
 });
 
 export default {
-//Seguridad
+  //Seguridad
   loginService: new loginService(Axios, baseUrl),
   menuService: new menuService(Axios, baseUrl),
   rolMenuService: new rolMenuService(Axios, baseUrl),
   rolService: new rolService(Axios, baseUrl),
   userRolService: new userRolService(Axios, baseUrl),
   userService: new userService(Axios, baseUrl),
-//Catalogo
+  //Catalogo
   departamentService: new departamentService(Axios, baseUrl),
   municipalityService: new municipalityService(Axios, baseUrl),
-//Principal
+  //Principal
   ventaService: new ventaService(Axios, baseUrl),
   bitacoraService: new bitacoraService(Axios, baseUrl)
 }

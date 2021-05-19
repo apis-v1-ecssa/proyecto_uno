@@ -1,9 +1,8 @@
 <template>
-
-
-  
   <div>
-    <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+    <nav
+      class="main-header navbar navbar-expand bg-white navbar-light border-bottom"
+    >
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#">
@@ -14,14 +13,21 @@
 
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown" v-if="notifications !== null">
-          <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
+          <a
+            class="nav-link"
+            data-toggle="dropdown"
+            href="#"
+            aria-expanded="false"
+          >
             <i class="fa fa-product-hunt">&nbsp;&nbsp;&nbsp;&nbsp;</i>
-            <span class="badge badge-danger navbar-badge">{{ notifications.low_products.length }}</span>
+            <span class="badge badge-danger navbar-badge">
+              {{ notifications.low_products.length }}
+            </span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span
-              class="dropdown-item dropdown-header"
-            >{{ notifications.low_products.length }} productos bajos en stock</span>
+            <span class="dropdown-item dropdown-header">
+              {{ notifications.low_products.length }} productos bajos en stock
+            </span>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item">
               <div class="media" v-for="(item, i) in products" :key="item.id">
@@ -42,22 +48,31 @@
               </div>
             </a>
             <div class="dropdown-divider"></div>
-            <a
-              href="#/product"
-              class="dropdown-item dropdown-footer"
-            >{{ notifications.low_products.length - products.length }} Productos mas</a>
+            <a href="#/product" class="dropdown-item dropdown-footer">
+              {{ notifications.low_products.length - products.length }}
+              Productos mas
+            </a>
           </div>
         </li>
 
         <li class="nav-item dropdown show" v-if="notifications !== null">
-          <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
-            <i class="fa fa-shopping-cart">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
-            <span class="badge badge-primary navbar-badge">{{ notifications.orders.length }}</span>
+          <a
+            class="nav-link"
+            data-toggle="dropdown"
+            href="#"
+            aria-expanded="true"
+          >
+            <i class="fa fa-shopping-cart">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </i>
+            <span class="badge badge-primary navbar-badge">
+              {{ notifications.orders.length }}
+            </span>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span
-              class="dropdown-item dropdown-header"
-            >{{ notifications.orders.length }} nuevos pedidos</span>
+            <span class="dropdown-item dropdown-header">
+              {{ notifications.orders.length }} nuevos pedidos
+            </span>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item">
               <i class="fa fa-apple mr-2"></i>
@@ -74,7 +89,9 @@
               {{ utiles }} utiles
             </a>
             <div class="dropdown-divider"></div>
-            <a href="#/progressorder" class="dropdown-item dropdown-footer">Ver todos</a>
+            <a href="#/progressorder" class="dropdown-item dropdown-footer">
+              Ver todos
+            </a>
           </div>
         </li>
 
@@ -90,7 +107,7 @@
 
 <script>
 export default {
-  name: "NavHeader",
+  name: 'NavHeader',
   data() {
     return {
       loading: false,
@@ -99,53 +116,53 @@ export default {
       gratuidad: 0,
       utiles: 0,
       products: [],
-    };
+    }
   },
 
   created() {
-    let self = this;
-    self.getNotifications();
+    let self = this
+    self.getNotifications()
   },
 
   methods: {
     logout() {
-      let self = this;
-      self.loading = true;
+      let self = this
+      self.loading = true
       self.$store.state.services.loginService
         .logout()
         .then((r) => {
-          self.$store.dispatch("logout");
-          self.$router.push("/login");
-          self.loading = false;
+          self.$store.dispatch('logout')
+          self.$router.push('/login')
+          self.loading = false
         })
-        .catch((e) => {});
+        .catch((e) => {})
     },
 
     getNotifications() {
-      let self = this;
-      self.loading = true;
+      let self = this
+      self.loading = true
       self.$store.state.services.reportService
         .getNotifications()
         .then((r) => {
-          self.loading = false;
-          self.notifications = r.data;
+          self.loading = false
+          self.notifications = r.data
           self.alimentacion = self.notifications.orders.filter(
-            (x) => x.type_order === "ALIMENTACION"
-          ).length;
+            (x) => x.type_order === 'ALIMENTACION',
+          ).length
           self.gratuidad = self.notifications.orders.filter(
-            (x) => x.type_order === "GRATUIDAD"
-          ).length;
+            (x) => x.type_order === 'GRATUIDAD',
+          ).length
           self.utiles = self.notifications.orders.filter(
-            (x) => x.type_order === "UTILES"
-          ).length;
+            (x) => x.type_order === 'UTILES',
+          ).length
           self.products = self.notifications.low_products.filter(
-            (item, idx) => idx < 5
-          );
+            (item, idx) => idx < 5,
+          )
         })
-        .catch((e) => {});
+        .catch((e) => {})
     },
   },
-};
+}
 </script>
 
 <style scoped>

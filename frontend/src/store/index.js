@@ -19,8 +19,8 @@ const state = {
   permissions: [],
 
   /* ::::::::::::::::::::: DESARROLLO ::::::::::::::::::::::::: */
-  base_url: 'http://172.31.253.59/service_detalle/',
-  //base_url: 'http://localhost:8001/apis/public/',
+  //base_url: 'http://172.31.253.59/service_detalle/',
+  base_url: 'http://localhost:8001/apis/public/',
   client_id: 2,
   client_secret: 'fb8QYHjGOBKEL4S8CMDNkXW44lSHGmM6lrvoxwO1'
 }
