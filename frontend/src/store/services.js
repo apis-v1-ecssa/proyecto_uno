@@ -25,8 +25,8 @@ import bitacoraService from '../services/principal/BitacoraService'
 
 
 // Para desarrollo
-//let baseUrl = 'http://172.31.253.59/service_detalle/'
-let baseUrl = 'http://localhost:8001/apis/public/' //base url desarrollo
+let baseUrl = 'http://172.31.253.59/service_detalle/'
+//let baseUrl = 'http://localhost:8001/apis/public/' //base url desarrollo
 let token_data = $cookies.get('token_data')
 
 // Axios Configuration
